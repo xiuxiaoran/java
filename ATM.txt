@@ -1,0 +1,327 @@
+import java.util.Scanner;
+
+class Acount{
+    String kahao;   //账号
+    String date;    //日期
+    String mima;    //密码
+    double money ;    //金额
+    Scanner input = new Scanner(System.in);
+    Acount bank1,bank2;
+    public Acount(String k,String d,String m,double y)
+    {
+        kahao = k;
+        date = d;
+        mima = m;
+        money = y;     
+    }
+     //构造函数
+public void setkahao(String k){
+         
+        kahao = k;
+    }
+    public String  getkahao()
+    {
+        return kahao;
+             
+    }
+    public void setmoney(double y){
+         
+        money = y;
+         
+    }
+    public double getmoney()
+    {
+        return money;
+             
+    }
+    public void setname(String n){
+         
+        //name = n;
+    }
+   /* public String  getname()
+    {
+        return name;
+             
+    }*/
+public void setdate(String d){
+         
+        date = d;
+    }
+    public String  getdate()
+    {
+        return date;
+             
+    }
+public void setmima(String m){
+         
+        mima = m;
+    }
+    public String  getmima()
+    {
+        return mima;
+             
+    }
+    //=========================取款============================//
+    public int qukuan(){
+            System.out.println("请输入取款金额：");
+            int b = input.nextInt();   
+            while(true)
+            {
+            if(b%100==0&&b>0&&b<=5000&&b<=money)
+            {
+            	money=money-b;
+            	System.out.println("您此次取款为"+b+",卡里余额为"+money);
+            	return 1;
+            }
+            else if(b%100!=0)
+            {
+            	System.out.println("取款金额必须为100的整数倍");
+            	System.out.println("请输入取款金额：");
+                b = input.nextInt();   
+            }
+            else if(b>5000)
+            {
+            	System.out.println("单次取款金额小于5000");
+            	System.out.println("请输入取款金额：");
+                 b = input.nextInt();   
+            }
+            else if(b>money)
+            {
+                System.out.println("您卡里的余额不足");
+                System.out.println("请输入取款金额：");
+                b = input.nextInt();   
+            }  
+            }
+           
+    }
+   //=========================转账========================将1卡的钱转给卡2//
+  public  int zhuanzhang(Acount card1, Acount card2){	 
+	     System.out.println("请输入转账卡号：");
+	     String n1=input.next();
+	     System.out.println("请输入转账卡号再次确认：");
+         String n = input.next();
+       while(true)
+       {
+       if((n1.equals(n)&&n.equals(card2.getkahao())))
+        {
+            System.out.println("请输入转账金额：");
+            int money= input.nextInt();
+            while(true)
+            {
+            if(card1.money>=money)
+            {
+            card1.money-=money;
+            card2.money+=money;
+            System.out.println("转账成功,卡号为"+card1.kahao+"转出"+money+"余额为"+card1.money+"卡号为"+card2.kahao+"转入"+money+"余额为"+card2.money);
+            break;
+            }
+            else
+            {
+            	System.out.println("转账金额超过卡内余额");
+            	 System.out.println("请输入转账金额：");
+                 money= input.nextInt();	
+            }
+            }
+            return 1;
+        }
+        else
+            {
+                System.out.println("两次卡号不对应，无法操作！");
+                System.out.println("请输入转账卡号再次确认：");
+                n = input.next();   
+            }             
+        }
+   }
+             //================================修改密码=====================================//
+public int xiugaimima()
+{
+
+System.out.println("请输入原密码");
+String q=input.next();
+    while(!q.equals(getmima()))
+    {  
+        System.out.println("原密码不符,请输入原密码");
+        q=input.next();
+    }
+        System.out.println("请输入新密码：");
+        String m = input.next();
+        int length=m.length();
+        while(true)
+        {
+        	if(length<=6)
+        	{
+        		System.out.println("新密码长度不小于6位");
+        		 System.out.println("请输入新密码：");
+        	         m = input.next();
+        	         length=m.length();	
+        	}
+        	else
+        	{
+        	  mima=m;
+        	  System.out.println("请再次输入新密码");
+        	  String x=input.next();
+        	  if(x.equals(mima))
+        		  System.out.println("密码修改成功");
+        	  else
+        		  System.out.println("两次密码不一样，修改密码失败");
+        	  break;
+        	}
+        }
+		return 1;
+    }                  //没有实现6位密码完全相同的剔除
+ //====================查询========================//
+public void chaxun()
+{   
+	String []str=new String[5];
+   
+   
+   System.out.println("余额为" + getmoney());
+}
+     
+      //===========================存款==================================//
+public int cunkuan(){
+System.out.println("请输入金额,单次存款金额不得超过5000");
+double b = input.nextDouble();
+while(true)
+{
+	if(b>0&&b<=5000)
+	{
+     money = money+b;
+      System.out.println("存款成功,存款金额为"+b+"账户余额为"+money);
+      return 1;
+	}
+	else if(b<0)
+	{
+		System.out.println("存款金额不得为负数,请重新输入");
+		 b = input.nextDouble();	
+	}
+	else if(b>5000)
+	{
+		System.out.println("请输入金额,单次存款金额不得超过5000");
+		 b = input.nextDouble();
+	}
+		
+}
+}
+//===============================登录================================//
+public void denglu(){
+System.out.println("请输入卡号：");
+String  useraccount= input.next();
+System.out.println("请输入密码：");
+String userpassword = input.next();
+while(!useraccount.equals(getkahao())||!userpassword.equals(getmima()))
+{ System.out.println("您输入的账号或者密码有误");
+	 System.out.println("****请输入您的账号****");
+	 useraccount=input.next();
+	 System.out.println("****请输入您的密码****");
+	 userpassword=input.next();
+} 
+System.out.println("登录成功，欢迎您");
+}
+public void menushow() {
+System.out.println("********************菜单********************");
+System.out.println("1.查询\t\t2.取款");
+System.out.println("3.转账\t\t4.实时存款");
+System.out.println("5.修改密码\t6.返回主菜单");
+System.out.println("7.退卡");
+}
+}
+
+ class ATM {
+   public static void main(String[] args){
+	   int flag=0;  //判断退出的条件
+       Scanner sc=new Scanner(System.in);
+       Acount A = new Acount("123456","201601","123456",1000);//初始化银行卡
+       Acount B=new Acount("987654","201712","123456",1000); 
+       A.denglu();
+       A.menushow();
+       System.out.println("输入想执行的操作");
+       int a=sc.nextInt();
+       while(true)
+  {
+       	switch(a)
+    {
+       	case 1:
+       	{
+       		A.chaxun();
+       	   System.out.println("输入想执行的操作");
+           a=sc.nextInt();
+       		break;
+       	}
+       	case 2:
+       	{
+       		A.qukuan();
+       	  System.out.println("输入想执行的操作");
+           a=sc.nextInt();
+       		break;
+       	}
+       	case 3:
+       	{
+       	  A.zhuanzhang(A,B);
+       	  System.out.println("输入想执行的操作");
+          a=sc.nextInt();
+       		break;
+       	}
+       	case 4:
+       	{
+       		A.cunkuan();
+       	  System.out.println("输入想执行的操作");
+           a=sc.nextInt();
+       		break;
+       	}
+       	case 5:
+       	{
+       		A.xiugaimima();
+       	  System.out.println("输入想执行的操作");
+           a=sc.nextInt();
+       		break;
+       	}
+       	case 6:
+       	{
+       		A.menushow();
+       	  System.out.println("输入想执行的操作");
+           a=sc.nextInt();
+       		break;
+       	}
+       	case 7:
+    {  
+  		System.out.println("您想继续操作还是退卡?0-继续操作;1-直接退卡");
+  		flag=sc.nextInt();
+  		if(flag==0)
+  		{
+       	   A.denglu();
+       	   System.out.println("输入想执行的操作");
+           a=sc.nextInt();
+       	   break;
+  		}
+  		else
+  		{
+  			flag=1;
+  			break;  
+       	 }
+     }  	
+       
+   }
+        if(a==7&&flag==1)
+        {
+        	System.out.println("卡已退出,请收好");
+        	break;
+        }
+        else
+        	continue;
+       
+ } 
+ 
+ }
+ }
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
